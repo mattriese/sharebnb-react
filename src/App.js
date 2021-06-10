@@ -1,19 +1,21 @@
 import Form from 'react-bootstrap/Form';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import Button from 'react-bootstrap/Button';
 import 'axios';
 import './App.css';
 import axios from 'axios';
 
 function App() {
+  const inputRef = useRef()
   const [signupData, setSignupData] = useState({
     username: '',
     email: '',
     password: '',
     bio: '',
-    location: '',
-    file: null
+    location: ''
+    //file: null
   });
+  const [file, setFiles] = useState();
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -36,20 +38,22 @@ function App() {
       console.log("signupData.file in react handlesubmit===>>>>", signupData.file);
 
       const signupFormData = new FormData();
+      signupFormData.append('file', file)
       // signupFormData.append("key", "value");
       //console.log("signupFromData 1 in react handlesubmit===>>>>", signupFormData);
       //console.log("ev.targe.files[0]", evt.target.files[0])
-      const blob = new Blob([signupData.file], {type: "image/png"});
+      //const blob = new Blob([signupData.file], {type: "image/png"});
       for (let field in signupData) {
-        if (field === "file") {
+        //if (field === "file") {
           //continue;
           //console.log("signupFromData[field] (file) in loop::::", signupData[field])
           // TODO: make file name without hardcoding
-          signupFormData.append(field, blob, `${signupData[field]}`);
-        } else {
+         // signupFormData.append(field, blob, `${signupData[field]}`);
+        //} else {
           signupFormData.append(field, signupData[field]);
-        }
+        //}
       }
+
 
       console.log("signupFromData in react handlesubmit===>>>>", signupFormData.entries());
       let resp = await axios.post(
@@ -138,7 +142,8 @@ function App() {
             name="file"
             value={signupData.file}
             type="file"
-            onChange={handleChange}
+            onChange={() => setFiles(inputRef.current.files[0])}
+                ref={inputRef}
           />
         </Form.Group>
         <Button type="submit">upload</Button>
