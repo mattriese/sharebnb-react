@@ -12,7 +12,7 @@ function App() {
     password: '',
     bio: '',
     location: '',
-    file: undefined
+    file: null
   });
 
   function handleChange(evt) {
@@ -23,26 +23,29 @@ function App() {
     }));
   }
 
-  function handleFileSelect(evt) {
-    setSignupData(signupData => ({
-      ...signupData,
-      file: evt.target.files[0]
-    }))
-  }
+  // function handleFileSelect(evt) {
+  //   setSignupData(signupData => ({
+  //     ...signupData,
+  //     file: evt.target.files[0]
+  //   }))
+  // }
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
-      console.log("signupData in react handlesubmit===>>>>", signupData);
+      console.log("signupData.file in react handlesubmit===>>>>", signupData.file);
 
       const signupFormData = new FormData();
       // signupFormData.append("key", "value");
       //console.log("signupFromData 1 in react handlesubmit===>>>>", signupFormData);
       //console.log("ev.targe.files[0]", evt.target.files[0])
+      const blob = new Blob([signupData.file], {type: "image/png"});
       for (let field in signupData) {
         if (field === "file") {
-          console.log("signupFromData[field] (file) in loop::::", signupData[field])
-          signupFormData.append(field, new Blob([signupData[field]]), "photo.jpg");
+          //continue;
+          //console.log("signupFromData[field] (file) in loop::::", signupData[field])
+          // TODO: make file name without hardcoding
+          signupFormData.append(field, blob, `${signupData[field]}`);
         } else {
           signupFormData.append(field, signupData[field]);
         }
@@ -52,8 +55,9 @@ function App() {
       let resp = await axios.post(
                             "http://localhost:5000/signup",
                             signupFormData,
+
                             {"Content-type": "multipart/form-data",
-                                        "Access-Control-Allow-Origin" : "*"});
+                             "Access-Control-Allow-Origin" : "*"});
       console.log("axios resp, status=", resp, resp.status);
     } catch (err) {
       console.warn("error=== ", err);
@@ -134,7 +138,7 @@ function App() {
             name="file"
             value={signupData.file}
             type="file"
-            onChange={handleFileSelect}
+            onChange={handleChange}
           />
         </Form.Group>
         <Button type="submit">upload</Button>
@@ -144,3 +148,5 @@ function App() {
 }
 
 export default App;
+
+//            onChange={handleFileSelect}
