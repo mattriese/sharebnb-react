@@ -23,6 +23,13 @@ function App() {
     }));
   }
 
+  function handleFileSelect(evt) {
+    setSignupData(signupData => ({
+      ...signupData,
+      file: evt.target.files[0]
+    }))
+  }
+
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
@@ -30,12 +37,14 @@ function App() {
 
       const signupFormData = new FormData();
       // signupFormData.append("key", "value");
-      console.log("signupFromData 1 in react handlesubmit===>>>>", signupFormData);
+      //console.log("signupFromData 1 in react handlesubmit===>>>>", signupFormData);
+      //console.log("ev.targe.files[0]", evt.target.files[0])
       for (let field in signupData) {
         if (field === "file") {
-          signupFormData.append(field, signupFormData[field], "photo.jpg");
+          console.log("signupFromData[field] (file) in loop::::", signupData[field])
+          signupFormData.append(field, new Blob([signupData[field]]), "photo.jpg");
         } else {
-          signupFormData.append(field, signupFormData[field]);
+          signupFormData.append(field, signupData[field]);
         }
       }
 
@@ -43,8 +52,8 @@ function App() {
       let resp = await axios.post(
                             "http://localhost:5000/signup",
                             signupFormData,
-                            { headers: {"Content-type": "multipart/form-data",
-                                        "Access-Control-Allow-Origin" : "*"} });
+                            {"Content-type": "multipart/form-data",
+                                        "Access-Control-Allow-Origin" : "*"});
       console.log("axios resp, status=", resp, resp.status);
     } catch (err) {
       console.warn("error=== ", err);
@@ -125,7 +134,7 @@ function App() {
             name="file"
             value={signupData.file}
             type="file"
-            onChange={handleChange}
+            onChange={handleFileSelect}
           />
         </Form.Group>
         <Button type="submit">upload</Button>
