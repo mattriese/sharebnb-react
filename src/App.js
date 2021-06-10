@@ -24,17 +24,30 @@ function App() {
   }
 
   async function handleSubmit(evt) {
-    evt.preventDefault()
+    evt.preventDefault();
     try {
       console.log("signupData in react handlesubmit===>>>>", signupData);
+
+      const signupFormData = new FormData();
+      // signupFormData.append("key", "value");
+      console.log("signupFromData 1 in react handlesubmit===>>>>", signupFormData);
+      for (let field in signupData) {
+        if (field === "file") {
+          signupFormData.append(field, signupFormData[field], "photo.jpg");
+        } else {
+          signupFormData.append(field, signupFormData[field]);
+        }
+      }
+
+      console.log("signupFromData in react handlesubmit===>>>>", signupFormData.entries());
       let resp = await axios.post(
                             "http://localhost:5000/signup",
-                            signupData,
+                            signupFormData,
                             { headers: {"Content-type": "multipart/form-data",
                                         "Access-Control-Allow-Origin" : "*"} });
-      console.log("axios resp=", resp);
+      console.log("axios resp, status=", resp, resp.status);
     } catch (err) {
-      console.warn("error= ", err);
+      console.warn("error=== ", err);
     }
   }
   return (
