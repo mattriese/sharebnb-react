@@ -14,10 +14,10 @@ import { SharebnbApi } from './api';
  *
  * Routes -> ListingDetail -> JobCardList
  */
-function ListingDetail(listingData) {
-  console.log("listingData:::: ", listingData.listing)
+function ListingDetail(listing) {
+  console.log("listingData:::: ", listing)
   const { id } = useParams();
-  const [listing, setListing] = useState([listingData.listing]);
+  //const [listing, setListing] = useState([listingData]);
   //const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   //console.log('', );
@@ -51,14 +51,15 @@ function ListingDetail(listingData) {
   return (
     <div>
       <div>
-        <h2>{listing.title}</h2>
-        <h3>{listing.location}</h3>
-        <h4>{listing.price}</h4>
-        <p>{listing.description}</p>
-        <img src={listing.photo}/>
+        {listing.listing.photos.map(p => <img key={p.id} src={p.image_url}/>)}
+        <h2>{listing.listing.title}</h2>
+        <h3>{listing.listing.location}</h3>
+        <h4>{listing.listing.price}</h4>
+        <p>{listing.listing.description}</p>
       </div>
     </div>
   );
 }
 
 export default ListingDetail;
+//        <img src={listing.photos[0]}/>

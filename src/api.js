@@ -66,11 +66,28 @@ class SharebnbApi {
 
   static async createListing(newListingData) {
     console.log("createListing ran in SHarebnbApi");
-    let res = await this.request("listings/new", "POST", newListingData,         {
-      'Content-type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
-    });
-    return res.data;
+    let resp;
+    try {
+      //let token = await SharebnbApi.signup(signupFormData);
+      resp = await axios.post(
+        'http://localhost:5000/listings/new',
+        newListingData,
+        {
+          'Content-type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*',
+        }
+      );
+      console.log('axios resp, status=', resp, resp.status);
+    } catch (err) {
+      console.warn('error=== ', err);
+    }
+
+
+    // let res = await this.request("listings/new", "POST", newListingData,         {
+    //   'Content-type': 'multipart/form-data',
+    //   'Access-Control-Allow-Origin': '*',
+    // });
+    return resp.data;
   }
 
 
@@ -108,6 +125,7 @@ class SharebnbApi {
    * returns token
    */
   static async signup(signupData) {
+    console.log("signupdata in api=======", signupData);
     let res = await this.request("signup", "POST", signupData,         {
       'Content-type': 'multipart/form-data',
       'Access-Control-Allow-Origin': '*',

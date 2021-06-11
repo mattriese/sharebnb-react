@@ -16,12 +16,13 @@ import CurrUserContext from './currUserContext';
 function NewListingForm({ addListing }) {
   const inputRef = useRef();
   const currUser = useContext(CurrUserContext);
+  console.log("currUser======", currUser);
   const [listingData, setListingData] = useState({
     title: '',
     description: '',
     price: '',
     location: '',
-    listing_owner: currUser,
+    username: currUser,
   });
   const [file, setFiles] = useState();
 
@@ -41,7 +42,7 @@ function NewListingForm({ addListing }) {
     evt.preventDefault();
     const listingFormData = new FormData();
     listingFormData.append('photo', file);
-
+    console.log('listingFORMData in handlesubmit=>>>>> ', listingFormData);
     for (let field in listingData) {
       listingFormData.append(field, listingData[field]);
     }
@@ -53,12 +54,12 @@ function NewListingForm({ addListing }) {
     <div className="App">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label htmlFor="signup-title">Title: </Form.Label>
+          <Form.Label htmlFor="listing-title">Title: </Form.Label>
           <Form.Control
 
             name="title"
             value={listingData.title}
-            id="signup-title"
+            id="listing-title"
             type="text"
             placeholder="title"
             onChange={handleChange}
@@ -66,12 +67,12 @@ function NewListingForm({ addListing }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="signup-description">Description: </Form.Label>
+          <Form.Label htmlFor="listing-description">Description: </Form.Label>
           <Form.Control
 
             name="description"
             value={listingData.description}
-            id="signup-description"
+            id="listing-description"
             type="text"
             placeholder="description"
             onChange={handleChange}
@@ -79,12 +80,12 @@ function NewListingForm({ addListing }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="signup-price">Price: </Form.Label>
+          <Form.Label htmlFor="listing-price">Price: </Form.Label>
           <Form.Control
             className="mb-2 mr-sm-2"
             name="price"
             value={listingData.price}
-            id="signup-price"
+            id="listing-price"
             type="price"
             placeholder="price"
             onChange={handleChange}
@@ -92,12 +93,12 @@ function NewListingForm({ addListing }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="signup-location">location: </Form.Label>
+          <Form.Label htmlFor="listing-location">location: </Form.Label>
           <Form.Control
 
             name="location"
             value={listingData.location}
-            id="signup-location"
+            id="listing-location"
             type="location"
             placeholder="location"
             onChange={handleChange}
@@ -105,9 +106,9 @@ function NewListingForm({ addListing }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="signup-photo"></Form.Label>
+          <Form.Label htmlFor="listing-photo"></Form.Label>
           <Form.Control
-            id="signup-photo"
+            id="listing-photo"
             name="photo"
             type="file"
             onChange={() => setFiles(inputRef.current.files[0])}

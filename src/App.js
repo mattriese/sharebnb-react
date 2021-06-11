@@ -18,6 +18,7 @@ function App() {
 
 
   async function handleSignup(signupFormData) {
+    console.log("signup FORMDATA::::", signupFormData)
     try {
       //let token = await SharebnbApi.signup(signupFormData);
       let resp = await axios.post(
