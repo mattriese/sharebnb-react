@@ -7,6 +7,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import ProfileForm from './ProfileForm';
 import CurrUserContext from './currUserContext';
+import NewListingForm from './NewListingForm';
 
 /** Routes component
  *
@@ -20,7 +21,7 @@ import CurrUserContext from './currUserContext';
  *               -> SignupForm
  *               -> ProfileForm
  */
-function Routes({ handleSignup, handleLogin }) {
+function Routes({ handleSignup, handleLogin, addListing, listings}) {
   const currUser = useContext(CurrUserContext);
 
   if (currUser) {
@@ -30,7 +31,10 @@ function Routes({ handleSignup, handleLogin }) {
           <Homepage />
         </Route>
         <Route exact path="/listings">
-          <Listings />
+          <Listings listings={listings}/>
+        </Route>
+        <Route exact path="/listings/new">
+          <NewListingForm addListing={addListing}/>
         </Route>
         <Route path="/listings/:id">
           <ListingDetail />

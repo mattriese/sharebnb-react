@@ -48,6 +48,11 @@ function NavBar({ handleLogout }) {
             </NavLink>
           </NavItem>
           <NavItem>
+            <NavLink className="nav-link" to="/listings/new">
+              Add a new listing
+            </NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink className="nav-link" to="/profile">
               Profile
             </NavLink>

@@ -124,7 +124,7 @@ function SignupForm({ handleSignup }) {
             ref={inputRef}
           />
         </Form.Group>
-        <Button type="submit">upload</Button>
+        <Button type="submit">Submit</Button>
       </Form>
     </div>
   );

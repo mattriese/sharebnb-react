@@ -56,6 +56,19 @@ class SharebnbApi {
     return res.listings;
   }
 
+/**
+ * Add a new listing to the db
+ */
+
+  static async createListing(newListingData) {
+    let res = await this.request("listings/new", "POST", newListingData,         {
+      'Content-type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+    });
+    return res.data;
+  }
+
+
   // /** Gets a list of all jobs
   //  *
   //  * accepts a string: searchTerm

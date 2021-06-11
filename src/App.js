@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +14,8 @@ function App() {
   const [currUser, setCurrUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [listings, setListings] = useState([]);
+
 
   async function handleSignup(signupFormData) {
     try {
@@ -33,13 +34,23 @@ function App() {
     }
   }
 
-    async function handleLogin(loginData) {
+  async function handleLogin(loginData) {
     try {
       let token = await SharebnbApi.login(loginData);
       setToken(token);
       setIsLoaded(false);
     } catch (err) {
       console.log('handlelogin err = ', err);
+      return err;
+    }
+  }
+
+  async function addListing(newListingData) {
+    try {
+      let listings = await SharebnbApi.addListing(newListingData)
+      setListings(listings);
+    } catch (err) {
+      console.log('addListing err = ', err);
       return err;
     }
   }
@@ -78,7 +89,12 @@ function App() {
       <BrowserRouter>
         <CurrUserContext.Provider value={currUser}>
           <NavBar handleLogout={handleLogout} />
-          <Routes handleSignup={handleSignup} handleLogin={handleLogin}/>
+          <Routes
+            handleSignup={handleSignup}
+            handleLogin={handleLogin}
+            addListing={addListing}
+            listings={listings}
+          />
         </CurrUserContext.Provider>
       </BrowserRouter>
     </div>
