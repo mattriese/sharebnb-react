@@ -47,7 +47,7 @@ function App() {
 
   async function addListing(newListingData) {
     try {
-      let listings = await SharebnbApi.addListing(newListingData)
+      let listings = await SharebnbApi.createListing(newListingData)
       setListings(listings);
     } catch (err) {
       console.log('addListing err = ', err);

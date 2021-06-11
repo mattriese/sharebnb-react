@@ -37,6 +37,7 @@ class SharebnbApi {
   /** Get details on a company by handle. */
 
   static async getListing(handle) {
+    console.log("getListing ran in SHarebnbApi");
     let res = await this.request(`listings/${handle}`);
     return res.listing;
   }
@@ -46,14 +47,17 @@ class SharebnbApi {
    * accepts a string: searchTerm
    * returns: an array of company objects
   */
-  static async getListings(searchTerm) {
+  static async getListings() {
+    console.log("getListings ran in SHarebnbApi");
     let res;
-    if (searchTerm === "") {
-      res = await this.request(`listings`);
-    } else {
-      res = await this.request(`listings`, { name: searchTerm });
-    }
-    return res.listings;
+    res = await axios(`${BASE_URL}/listings`);
+    // if (searchTerm === "") {
+    //   res = await this.request(`listings`);
+    // } else {
+    //   res = await this.request(`listings`, { name: searchTerm });
+    // }
+    console.log("res in getlistings api===", res);
+    return res.data;
   }
 
 /**
@@ -61,6 +65,7 @@ class SharebnbApi {
  */
 
   static async createListing(newListingData) {
+    console.log("createListing ran in SHarebnbApi");
     let res = await this.request("listings/new", "POST", newListingData,         {
       'Content-type': 'multipart/form-data',
       'Access-Control-Allow-Origin': '*',

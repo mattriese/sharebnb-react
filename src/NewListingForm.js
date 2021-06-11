@@ -40,7 +40,7 @@ function NewListingForm({ addListing }) {
     console.log('listingData in handlesubmit= ', listingData);
     evt.preventDefault();
     const listingFormData = new FormData();
-    listingFormData.append('file', file);
+    listingFormData.append('photo', file);
 
     for (let field in listingData) {
       listingFormData.append(field, listingData[field]);
@@ -105,10 +105,10 @@ function NewListingForm({ addListing }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="signup-file"></Form.Label>
+          <Form.Label htmlFor="signup-photo"></Form.Label>
           <Form.Control
-            id="signup-file"
-            name="file"
+            id="signup-photo"
+            name="photo"
             type="file"
             onChange={() => setFiles(inputRef.current.files[0])}
             ref={inputRef}

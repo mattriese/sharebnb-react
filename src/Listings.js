@@ -29,7 +29,7 @@ function Listings() {
     function getListings() {
       async function getAll() {
         try {
-          let listingsRes = await SharebnbApi.getListings(searchTerm);
+          let listingsRes = await SharebnbApi.getListings();
           setListings(listingsRes);
           setIsLoading(false);
           console.log('LISTINGSRES--->', listingsRes);
@@ -55,7 +55,9 @@ function Listings() {
   return (
     <div>
       <SearchForm initialSearchTerm={searchTerm} handleSearch={handleSearch} />
-
+      {listings.map((l) => (
+        <ListingDetail key={l.id} listing={l} />
+      ))}
     </div>
   );
 }
